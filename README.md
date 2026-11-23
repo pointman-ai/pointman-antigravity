@@ -17,6 +17,10 @@ own `~/.gemini` is copied.
 Each run sets `SSH_CONNECTION`, so agy keeps refreshed sign-ins in that token file
 and never writes to the OS keyring. Without it, a refresh on a Mac asks a keychain that
 doesn't exist in the agent's home, and macOS shows a "Keychain Not Found" dialog.
+Tools the agent runs inherit it, so they think they are in an SSH session too: one that
+acts differently over SSH (opens no browser to sign in, skips a GUI prompt or the clipboard)
+will do the same here. agy doesn't promise this check; if the dialog comes back after an
+agy update, look for "Using file-based token storage" in a run's log.
 
 A Gemini API key also works with agy, but only with `"modelProvider": "gemini"`
 in its settings; this version doesn't set that up.
