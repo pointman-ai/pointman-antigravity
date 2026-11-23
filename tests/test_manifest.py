@@ -30,7 +30,9 @@ class ManifestContract(unittest.TestCase):
         for slot in ("{session}", "{model}", "{permissions}", "{add_dirs}"):
             self.assertIn(slot, run["args"])
         self.assertEqual(run["resume"], ["--conversation", "{value}"])
-        self.assertEqual(run["env"], {"AGY_CLI_DISABLE_AUTO_UPDATE": "true"})
+        self.assertEqual(run["env"]["AGY_CLI_DISABLE_AUTO_UPDATE"], "true")
+        # agy skips the OS keyring only when it sees an SSH session: no Keychain dialog on a Mac
+        self.assertTrue(run["env"]["SSH_CONNECTION"])
 
     def test_home_and_sign_in(self):
         self.assertEqual(self.client["home_env"], "HOME")

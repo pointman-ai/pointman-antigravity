@@ -14,6 +14,10 @@ Before each run the node copies that one file, owner-only, into the agent's own
 home, so one sign-in serves every agent on the machine. Nothing else from your
 own `~/.gemini` is copied.
 
+Each run sets `SSH_CONNECTION`, so agy keeps refreshed sign-ins in that token file
+and never writes to the OS keyring. Without it, a refresh on a Mac asks a keychain that
+doesn't exist in the agent's home, and macOS shows a "Keychain Not Found" dialog.
+
 A Gemini API key also works with agy, but only with `"modelProvider": "gemini"`
 in its settings; this version doesn't set that up.
 

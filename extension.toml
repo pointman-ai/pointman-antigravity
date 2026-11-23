@@ -1,7 +1,7 @@
 [extension]
 id = "antigravity"
 name = "Antigravity CLI"
-version = "0.1.0"
+version = "0.1.1"
 node = ">=0.4.25"
 publisher = "aurelio"
 summary = "Google's Antigravity CLI (agy): one headless run per wake, in an isolated home."
@@ -30,6 +30,10 @@ add_dir = ["--add-dir", "{value}"]
 
 [client.run.env]
 AGY_CLI_DISABLE_AUTO_UPDATE = "true"
+# agy's SSH-session check makes it keep its sign-in in the token file only. Without it, a token
+# refresh writes to the OS keyring under the agent's home, where macOS has no keychain and shows
+# a "Keychain Not Found" dialog on the machine's screen.
+SSH_CONNECTION = "127.0.0.1 0 127.0.0.1 0"
 
 [client.run.permissions]
 default = ["--dangerously-skip-permissions"]
