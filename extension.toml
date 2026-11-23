@@ -1,0 +1,50 @@
+[extension]
+id = "antigravity"
+name = "Antigravity CLI"
+version = "0.1.0"
+node = ">=0.4.21"
+publisher = "aurelio"
+summary = "Google's Antigravity CLI (agy): one headless run per wake, in an isolated home."
+
+[client]
+binaries = ["agy"]
+protocol = "agy-stream"
+home_env = "HOME"
+api_keys = ["GEMINI_API_KEY"]
+
+[client.install]
+from = "updater"
+url = "https://antigravity-cli-auto-updater-974169037036.us-central1.run.app/manifests/{goplatform}.json"
+asset = "antigravity"
+
+[client.sign_in]
+how = "agy, once, in a terminal on the machine"
+files = [".gemini/antigravity-cli/antigravity-oauth-token"]
+
+[client.run]
+prompt = "arg"
+args = ["-p", "{prompt}", "--output-format", "stream-json", "{session}", "{model}", "{permissions}", "{add_dirs}"]
+resume = ["--conversation", "{value}"]
+model = ["--model", "{value}"]
+add_dir = ["--add-dir", "{value}"]
+
+[client.run.env]
+AGY_CLI_DISABLE_AUTO_UPDATE = "true"
+
+[client.run.permissions]
+default = ["--dangerously-skip-permissions"]
+auto = ["--dangerously-skip-permissions"]
+
+[client.instructions]
+via = "file"
+file = ".gemini/GEMINI.md"
+
+[client.mcp]
+via = "config-file"
+file = ".gemini/config/mcp_config.json"
+key = "mcpServers"
+rename = { url = "serverUrl" }
+drop = ["type"]
+
+[client.limits]
+words = ["resource_exhausted", "quota", "credits balance is too low", "rate limit", "too many requests", "usage limit"]
