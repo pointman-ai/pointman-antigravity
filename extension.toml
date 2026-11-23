@@ -2,7 +2,7 @@
 id = "antigravity"
 name = "Antigravity CLI"
 version = "0.1.0"
-node = ">=0.4.21"
+node = ">=0.4.25"
 publisher = "aurelio"
 summary = "Google's Antigravity CLI (agy): one headless run per wake, in an isolated home."
 
