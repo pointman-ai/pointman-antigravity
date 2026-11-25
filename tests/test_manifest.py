@@ -37,6 +37,8 @@ class ManifestContract(unittest.TestCase):
     def test_home_and_sign_in(self):
         self.assertEqual(self.client["home_env"], "HOME")
         self.assertEqual(self.client["sign_in"]["files"], [".gemini/antigravity-cli/antigravity-oauth-token"])
+        # refreshed hourly: only a new refresh token is a new sign-in
+        self.assertEqual(self.client["sign_in"]["key"], "token.refresh_token")
         self.assertEqual(self.client["instructions"], {"via": "file", "file": ".gemini/GEMINI.md"})
         mcp = self.client["mcp"]
         self.assertEqual((mcp["file"], mcp["key"], mcp["rename"]), (".gemini/config/mcp_config.json", "mcpServers", {"url": "serverUrl"}))

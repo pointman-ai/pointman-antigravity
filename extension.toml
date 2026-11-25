@@ -1,8 +1,8 @@
 [extension]
 id = "antigravity"
 name = "Antigravity CLI"
-version = "0.1.1"
-node = ">=0.4.25"
+version = "0.1.2"
+node = ">=0.5.0"
 publisher = "aurelio"
 summary = "Google's Antigravity CLI (agy): one headless run per wake, in an isolated home."
 
@@ -20,6 +20,9 @@ asset = "antigravity"
 [client.sign_in]
 how = "agy, once, in a terminal on the machine"
 files = [".gemini/antigravity-cli/antigravity-oauth-token"]
+# Shared by every machine, and stored again only when this changes: agy refreshes its access token
+# about hourly and keeps the same refresh token.
+key = "token.refresh_token"
 
 [client.run]
 prompt = "arg"
