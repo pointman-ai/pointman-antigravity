@@ -4,15 +4,20 @@ A client extension for Google's [Antigravity CLI](https://antigravity.google/doc
 Repository: `pointman-ai/pointman-antigravity`. Requires a Pointman node with the
 `agy-stream` decoder, the update-manifest installer and `[client.sign_in] files`.
 
-## Sign in once per machine
+## Sign in once
 
-Run `agy` once in a terminal on the machine and sign in with your Google account
+Run `agy` once in a terminal on any machine and sign in with your Google account
 (AI Pro or Ultra quota). On its terms screen, Tab moves to the buttons.
 
 agy keeps that sign-in in `~/.gemini/antigravity-cli/antigravity-oauth-token`.
 Before each run the node copies that one file, owner-only, into the agent's own
 home, so one sign-in serves every agent on the machine. Nothing else from your
 own `~/.gemini` is copied.
+
+The node also seals that file in the workspace's vault for the machines the client is on,
+and writes it into their homes, so one sign-in serves every machine. It's sealed again only
+when its refresh token changes. To undo it, revoke `antigravity.signin` in the vault and sign
+out on each machine: revoking alone leaves the copies already written.
 
 Each run sets `SSH_CONNECTION`, so agy keeps refreshed sign-ins in that token file
 and never writes to the OS keyring. Without it, a refresh on a Mac asks a keychain that
