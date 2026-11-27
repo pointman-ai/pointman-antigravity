@@ -11,20 +11,20 @@ class ManifestContract(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.manifest = tomllib.loads((ROOT / "extension.toml").read_text())
-        cls.client = cls.manifest["client"]
+        cls.harness = cls.manifest["harness"]
 
     def test_extension(self):
         ext = self.manifest["extension"]
         self.assertEqual((ext["id"], ext["publisher"]), ("antigravity", "aurelio"))
 
     def test_install_and_protocol(self):
-        self.assertEqual(self.client["protocol"], "agy-stream")
-        self.assertEqual(self.client["binaries"], ["agy"])
-        self.assertEqual(self.client["install"]["from"], "updater")
-        self.assertIn("{goplatform}", self.client["install"]["url"])
+        self.assertEqual(self.harness["protocol"], "agy-stream")
+        self.assertEqual(self.harness["binaries"], ["agy"])
+        self.assertEqual(self.harness["install"]["from"], "updater")
+        self.assertIn("{goplatform}", self.harness["install"]["url"])
 
     def test_headless_run(self):
-        run = self.client["run"]
+        run = self.harness["run"]
         self.assertEqual(run["prompt"], "arg")
         self.assertEqual(run["args"][:4], ["-p", "{prompt}", "--output-format", "stream-json"])
         for slot in ("{session}", "{model}", "{permissions}", "{add_dirs}"):
@@ -35,16 +35,16 @@ class ManifestContract(unittest.TestCase):
         self.assertTrue(run["env"]["SSH_CONNECTION"])
 
     def test_home_and_sign_in(self):
-        self.assertEqual(self.client["home_env"], "HOME")
-        self.assertEqual(self.client["sign_in"]["files"], [".gemini/antigravity-cli/antigravity-oauth-token"])
+        self.assertEqual(self.harness["home_env"], "HOME")
+        self.assertEqual(self.harness["sign_in"]["files"], [".gemini/antigravity-cli/antigravity-oauth-token"])
         # refreshed hourly: only a new refresh token is a new sign-in
-        self.assertEqual(self.client["sign_in"]["key"], "token.refresh_token")
-        self.assertEqual(self.client["instructions"], {"via": "file", "file": ".gemini/GEMINI.md"})
-        mcp = self.client["mcp"]
+        self.assertEqual(self.harness["sign_in"]["key"], "token.refresh_token")
+        self.assertEqual(self.harness["instructions"], {"via": "file", "file": ".gemini/GEMINI.md"})
+        mcp = self.harness["mcp"]
         self.assertEqual((mcp["file"], mcp["key"], mcp["rename"]), (".gemini/config/mcp_config.json", "mcpServers", {"url": "serverUrl"}))
 
     def test_only_supported_modes(self):
-        self.assertEqual(self.client["run"]["permissions"], {m: ["--dangerously-skip-permissions"] for m in ("default", "auto")})
+        self.assertEqual(self.harness["run"]["permissions"], {m: ["--dangerously-skip-permissions"] for m in ("default", "auto")})
 
 
 class NativeFixture(unittest.TestCase):

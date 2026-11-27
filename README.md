@@ -1,8 +1,8 @@
-# Pointman Antigravity CLI client
+# Pointman Antigravity CLI harness
 
-A client extension for Google's [Antigravity CLI](https://antigravity.google/docs/cli) (`agy`).
+A harness extension for Google's [Antigravity CLI](https://antigravity.google/docs/cli) (`agy`).
 Repository: `pointman-ai/pointman-antigravity`. Requires a Pointman node with the
-`agy-stream` decoder, the update-manifest installer and `[client.sign_in] files`.
+`agy-stream` decoder, the update-manifest installer and `[harness.sign_in] files`.
 
 ## Sign in once
 
@@ -14,7 +14,7 @@ Before each run the node copies that one file, owner-only, into the agent's own
 home, so one sign-in serves every agent on the machine. Nothing else from your
 own `~/.gemini` is copied.
 
-The node also seals that file in the workspace's vault for the machines the client is on,
+The node also seals that file in the workspace's vault for the machines the harness is on,
 and writes it into their homes, so one sign-in serves every machine. It's sealed again only
 when its refresh token changes. To undo it, revoke `antigravity.signin` in the vault and sign
 out on each machine: revoking alone leaves the copies already written.
